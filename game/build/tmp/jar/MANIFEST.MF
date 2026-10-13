@@ -1,2 +1,3 @@
 Manifest-Version: 1.0
+main-class: eng1.c1group12.Main
 

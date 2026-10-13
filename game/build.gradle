@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'eng1.c1group12'
-version = '1.0-SNAPSHOT'
+version = '1.0'
 
 repositories {
     mavenCentral()
@@ -16,4 +16,12 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+jar {
+    manifest {
+        attributes(
+                "main-class": "eng1.c1group12.Main"
+        )
+    }
 }
