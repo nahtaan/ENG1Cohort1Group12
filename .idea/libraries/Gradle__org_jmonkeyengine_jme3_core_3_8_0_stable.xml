@@ -5,6 +5,8 @@
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jmonkeyengine/jme3-core/3.8.0-stable/2ed2b5972a08560b6bf25e59cbf49ad4eedef339/jme3-core-3.8.0-stable.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jmonkeyengine/jme3-core/3.8.0-stable/d2f8be9dc2c6ae1aa8449b8dbca00462f9ba6c46/jme3-core-3.8.0-stable-sources.jar!/" />
+    </SOURCES>
   </library>
 </component>
