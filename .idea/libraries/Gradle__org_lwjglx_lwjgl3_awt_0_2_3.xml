@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: org.lwjglx:lwjgl3-awt:0.2.3" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="org.lwjglx" artifactId="lwjgl3-awt" version="0.2.3" baseVersion="0.2.3" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjglx/lwjgl3-awt/0.2.3/2be63e81d6b73300d8203ce7235b2660c62eb3ea/lwjgl3-awt-0.2.3.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
