@@ -10,7 +10,7 @@ import com.jme3.scene.shape.Box;
 public class Player {
     public float moveX;
     public float moveY;
-    private final float speed = 0.05f;
+    private final float speed = 1f;
     private final Geometry geom;
     private final Camera camera;
 
