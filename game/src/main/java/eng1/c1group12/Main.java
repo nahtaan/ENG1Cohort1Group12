@@ -2,15 +2,13 @@ package eng1.c1group12;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.input.KeyInput;
-import com.jme3.input.controls.AnalogListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.system.AppSettings;
-import eng1.c1group12.entities.Player;
 
 public class Main extends SimpleApplication {
     public static final float PIXELS_PER_UNIT = 256f;
 
-    private Player player;
+    public static WorldManager worldManager;
 
     public static void main(String[] args) {
         Main app = new Main();
@@ -27,12 +25,14 @@ public class Main extends SimpleApplication {
     @Override
     public void simpleInitApp() {
         flyCam.setEnabled(false);
+        registerInputs();
 
-        WorldManager worldManager = new WorldManager(rootNode, assetManager, cam, WorldManager.Level.OUTSIDE);
+        worldManager = new WorldManager(rootNode, assetManager, cam, WorldManager.Level.OUTSIDE);
 
-        player = worldManager.getPlayer();
+        worldManager.getPlayer().attachInputListener(inputManager);
+    }
 
-
+    private void registerInputs() {
         inputManager.addMapping(
                 "Left", new KeyTrigger(KeyInput.KEY_A)
         );
@@ -45,19 +45,12 @@ public class Main extends SimpleApplication {
         inputManager.addMapping(
                 "Down", new KeyTrigger(KeyInput.KEY_S)
         );
-        inputManager.addListener((AnalogListener) (name, value, tpf) -> {
-            switch (name) {
-                case "Left" -> player.moveX = -1;
-                case "Right" -> player.moveX = 1;
-                case "Up" -> player.moveY = 1;
-                case "Down" -> player.moveY = -1;
-            }
-        }, "Left", "Right", "Up", "Down");
     }
+
 
     @Override
     public void simpleUpdate(float tpf) {
-        player.move(tpf);
+        worldManager.getPlayer().move(tpf);
     }
 
 }

@@ -8,7 +8,13 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Quad;
 import com.jme3.texture.Texture;
+import eng1.c1group12.entities.Entity;
 import eng1.c1group12.entities.Player;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class WorldManager {
 
@@ -17,6 +23,8 @@ public class WorldManager {
     private final Camera camera;
     private Level currentLevel;
     private Player player;
+    private List<Entity> currentEntites;
+    private final Map<Level, List<Entity>> levelEntities = new HashMap<>();
 
     public WorldManager(Node rootNode, AssetManager assetManager, Camera camera, Level initialLevel) {
         this.root = rootNode;
@@ -37,7 +45,12 @@ public class WorldManager {
     }
 
     public void loadLevel(Level newLevel) {
+        if(currentLevel != null && this.currentEntites != null) {
+            levelEntities.put(this.currentLevel, this.currentEntites);
+        }
+
         this.currentLevel = newLevel;
+        this.currentEntites = levelEntities.getOrDefault(currentLevel, new ArrayList<>());
 
         Texture texture = assetManager.loadTexture("Textures/Levels/"+currentLevel.id+".png");
         texture.setMagFilter(Texture.MagFilter.Nearest);
@@ -64,16 +77,17 @@ public class WorldManager {
 
     private void loadPlayer() {
         this.player = new Player(assetManager, camera);
-        this.root.attachChild(this.player.getNode());
+        addEntity(this.player);
+    }
+
+    public void addEntity(Entity entity) {
+        currentEntites.add(entity);
+        this.root.attachChild(entity.getNode());
     }
 
     public Player getPlayer() {
         return player;
     }
-
-
-
-
 
     public enum Level {
         OUTSIDE("outside");

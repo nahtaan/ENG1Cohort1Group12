@@ -1,11 +1,13 @@
 package eng1.c1group12.entities;
 
 import com.jme3.asset.AssetManager;
+import com.jme3.input.InputManager;
+import com.jme3.input.controls.AnalogListener;
 import com.jme3.renderer.Camera;
 
 public class Player extends Entity {
-    public float moveX;
-    public float moveY;
+    private float moveX;
+    private float moveY;
     private final float speed = 1f;
     private final Camera camera;
 
@@ -18,6 +20,17 @@ public class Player extends Entity {
         move(moveX * speed * tpf, moveY * speed * tpf, 0);
         moveX = 0;
         moveY = 0;
+    }
+
+    public void attachInputListener(InputManager inputManager) {
+        inputManager.addListener((AnalogListener) (name, value, tpf) -> {
+            switch (name) {
+                case "Left" -> this.moveX = -1;
+                case "Right" -> this.moveX = 1;
+                case "Up" -> this.moveY = 1;
+                case "Down" -> this.moveY = -1;
+            }
+        }, "Left", "Right", "Up", "Down");
     }
 
     @Override
