@@ -5,9 +5,9 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$/../../game/src/main">
       <sourceFolder url="file://$MODULE_DIR$/../../game/src/main/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../game/src/main/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../game/src/main/assets" type="java-resource" />
     </content>
-    <orderEntry type="jdk" jdkName="ms-17" jdkType="JavaSDK" />
+    <orderEntry type="jdk" jdkName="17" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Gradle: org.jmonkeyengine:jme3-lwjgl3:3.8.0-stable" level="project" />
     <orderEntry type="library" name="Gradle: org.jmonkeyengine:jme3-desktop:3.8.0-stable" level="project" />

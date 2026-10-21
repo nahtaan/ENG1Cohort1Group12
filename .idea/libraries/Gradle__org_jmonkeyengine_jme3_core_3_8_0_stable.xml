@@ -7,6 +7,7 @@
     <JAVADOC />
     <SOURCES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jmonkeyengine/jme3-core/3.8.0-stable/d2f8be9dc2c6ae1aa8449b8dbca00462f9ba6c46/jme3-core-3.8.0-stable-sources.jar!/" />
+      <root url="jar://E:/.gradle/caches/modules-2/files-2.1/org.jmonkeyengine/jme3-core/3.8.0-stable/d2f8be9dc2c6ae1aa8449b8dbca00462f9ba6c46/jme3-core-3.8.0-stable-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

@@ -7,7 +7,7 @@
       <sourceFolder url="file://$MODULE_DIR$/../../game/src/test/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/../../game/src/test/resources" type="java-test-resource" />
     </content>
-    <orderEntry type="jdk" jdkName="ms-17" jdkType="JavaSDK" />
+    <orderEntry type="jdk" jdkName="17" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="game.main" />
     <orderEntry type="library" name="Gradle: org.jmonkeyengine:jme3-lwjgl3:3.8.0-stable" level="project" />
