@@ -8,6 +8,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Quad;
 import com.jme3.texture.Texture;
+import eng1.c1group12.entities.Player;
 
 public class WorldManager {
 
@@ -15,6 +16,7 @@ public class WorldManager {
     private final AssetManager assetManager;
     private final Camera camera;
     private Level currentLevel;
+    private Player player;
 
     public WorldManager(Node rootNode, AssetManager assetManager, Camera camera, Level initialLevel) {
         this.root = rootNode;
@@ -22,6 +24,7 @@ public class WorldManager {
         this.camera = camera;
         setupCamera();
         loadLevel(initialLevel);
+        loadPlayer();
     }
 
     private void setupCamera() {
@@ -37,12 +40,12 @@ public class WorldManager {
         this.currentLevel = newLevel;
 
         Texture texture = assetManager.loadTexture("Textures/Levels/"+currentLevel.id+".png");
-        texture.setMagFilter(Texture.MagFilter.Bilinear);
+        texture.setMagFilter(Texture.MagFilter.Nearest);
 
         int width = texture.getImage().getWidth();
         int height = texture.getImage().getHeight();
 
-        float pixelsPerUnit = 256f;
+        float pixelsPerUnit = 512f;
 
         Quad quad = new Quad(
                 width / pixelsPerUnit,
@@ -58,6 +61,17 @@ public class WorldManager {
         background.setMaterial(material);
         this.root.attachChild(background);
     }
+
+    private void loadPlayer() {
+        this.player = new Player(assetManager, camera);
+        this.root.attachChild(this.player.getNode());
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+
 
 
 

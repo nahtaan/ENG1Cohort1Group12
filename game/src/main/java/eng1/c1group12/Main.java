@@ -8,6 +8,8 @@ import com.jme3.system.AppSettings;
 import eng1.c1group12.entities.Player;
 
 public class Main extends SimpleApplication {
+    public static final float PIXELS_PER_UNIT = 256f;
+
     private Player player;
 
     public static void main(String[] args) {
@@ -28,8 +30,7 @@ public class Main extends SimpleApplication {
 
         WorldManager worldManager = new WorldManager(rootNode, assetManager, cam, WorldManager.Level.OUTSIDE);
 
-        player = new Player(assetManager, cam);
-        rootNode.attachChild(player.getGeom());
+        player = worldManager.getPlayer();
 
 
         inputManager.addMapping(

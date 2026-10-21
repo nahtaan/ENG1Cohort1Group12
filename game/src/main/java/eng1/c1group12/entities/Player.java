@@ -1,39 +1,33 @@
 package eng1.c1group12.entities;
 
 import com.jme3.asset.AssetManager;
-import com.jme3.material.Material;
-import com.jme3.math.ColorRGBA;
 import com.jme3.renderer.Camera;
-import com.jme3.scene.Geometry;
-import com.jme3.scene.shape.Box;
 
-public class Player {
+public class Player extends Entity {
     public float moveX;
     public float moveY;
     private final float speed = 1f;
-    private final Geometry geom;
     private final Camera camera;
 
     public Player(AssetManager assetManager, Camera cam) {
+        super(assetManager,"Player", assetManager.loadTexture("Textures/Entities/player.png"));
         this.camera = cam;
-        Box b = new Box(0.1f, 0.1f, 0.5f);
-        geom = new Geometry("Player", b);
-
-        Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-        mat.setColor("Color", ColorRGBA.Blue);
-        geom.setMaterial(mat);
     }
 
     public void move(float tpf) {
-        geom.move(moveX * speed * tpf, moveY * speed * tpf, 0);
-        camera.setLocation(geom.getLocalTranslation().add(0,0,10));
+        move(moveX * speed * tpf, moveY * speed * tpf, 0);
         moveX = 0;
         moveY = 0;
     }
 
-    public Geometry getGeom() {
-        return this.geom;
+    @Override
+    public void move(float x, float y, float z) {
+        super.move(x, y, z);
+        camera.setLocation(getNode().getLocalTranslation().add(0, 0, 10));
     }
 
+    @Override
+    public void tick() {
 
+    }
 }
