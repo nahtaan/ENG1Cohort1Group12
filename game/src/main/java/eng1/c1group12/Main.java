@@ -40,6 +40,10 @@ public class Main extends SimpleApplication {
         worldManager = new WorldManager(rootNode, assetManager, cam, WorldManager.Level.OUTSIDE);
 
         worldManager.getPlayer().attachInputListener(inputManager);
+
+//        Uncomment to load testing level
+        worldManager.loadLevel(WorldManager.Level.TEST);
+        worldManager.addEntity(worldManager.getPlayer());
     }
 
     private void registerInputs() {

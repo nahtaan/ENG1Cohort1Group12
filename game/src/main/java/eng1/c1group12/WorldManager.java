@@ -6,7 +6,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-import com.jme3.scene.shape.Quad;
+import com.jme3.scene.shape.CenterQuad;
 import com.jme3.texture.Texture;
 import eng1.c1group12.entities.Entity;
 import eng1.c1group12.entities.Player;
@@ -18,6 +18,8 @@ import java.util.Map;
 
 public class WorldManager {
 
+    private float width;
+    private float height;
     private final Node root;
     private final AssetManager assetManager;
     private final Camera camera;
@@ -40,7 +42,7 @@ public class WorldManager {
         this.camera.setLocation(new Vector3f(0, 0, 10));
         this.camera.lookAt(Vector3f.ZERO, Vector3f.UNIT_Y);
         // aspect ratio should always be 16:9 to match a regular monitor
-        final float scale_factor = 15;
+        final float scale_factor = 5;
         this.camera.setFrustum(1, 100, -16f / scale_factor, 16f / scale_factor, 9f / scale_factor, -9f / scale_factor);
     }
 
@@ -48,6 +50,7 @@ public class WorldManager {
         if(currentLevel != null && this.currentEntites != null) {
             levelEntities.put(this.currentLevel, this.currentEntites);
         }
+        root.detachAllChildren();
 
         this.currentLevel = newLevel;
         this.currentEntites = levelEntities.getOrDefault(currentLevel, new ArrayList<>());
@@ -55,12 +58,12 @@ public class WorldManager {
         Texture texture = assetManager.loadTexture("Textures/Levels/"+currentLevel.id+".png");
         texture.setMagFilter(Texture.MagFilter.Nearest);
 
-        int width = texture.getImage().getWidth();
-        int height = texture.getImage().getHeight();
+        this.width = texture.getImage().getWidth() / Main.PIXELS_PER_UNIT;
+        this.height = texture.getImage().getHeight() / Main.PIXELS_PER_UNIT;
 
-        Quad quad = new Quad(
-                width / Main.PIXELS_PER_UNIT,
-                height / Main.PIXELS_PER_UNIT
+        CenterQuad quad = new CenterQuad(
+                width,
+                height
         );
 
         Geometry background = new Geometry("Background", quad);
@@ -87,12 +90,23 @@ public class WorldManager {
         return player;
     }
 
-    public void tick(float tpf) {
+    public float getWidth() {
+        return width;
+    }
 
+    public float getHeight() {
+        return height;
+    }
+
+    public void tick(float tpf) {
+        for (Entity entity: currentEntites) {
+            entity.tick(tpf);
+        }
     }
 
 
     public enum Level {
+        TEST("test"),
         OUTSIDE("outside");
 
         public final String id;

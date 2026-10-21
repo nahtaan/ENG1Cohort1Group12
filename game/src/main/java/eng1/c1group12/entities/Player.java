@@ -3,7 +3,9 @@ package eng1.c1group12.entities;
 import com.jme3.asset.AssetManager;
 import com.jme3.input.InputManager;
 import com.jme3.input.controls.AnalogListener;
+import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
+import eng1.c1group12.Main;
 
 public class Player extends Entity {
     private float moveX;
@@ -40,7 +42,28 @@ public class Player extends Entity {
     }
 
     @Override
-    public void tick() {
+    public void tick(float tpf) {
+        // world border collision check
+        float worldWidth = Main.worldManager.getWidth();
+        float worldHeight = Main.worldManager.getHeight();
+        float maxLeft = worldWidth / -2;
+        float maxRight = worldWidth / 2;
+        float maxUp = worldHeight / 2;
+        float maxDown = worldHeight / -2;
+
+        Vector3f pos = getNode().getLocalTranslation();
+        if(pos.x < maxLeft) {
+            move(-(pos.x - maxLeft), 0, 0);
+        }
+        if(pos.x > maxRight) {
+            move(-(pos.x - maxRight), 0,0);
+        }
+        if(pos.y > maxUp) {
+            move(0, -(pos.y - maxUp), 0);
+        }
+        if(pos.y < maxDown) {
+            move(0, -(pos.y - maxDown), 0);
+        }
 
     }
 }
