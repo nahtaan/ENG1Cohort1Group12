@@ -5,8 +5,10 @@ import com.jme3.input.KeyInput;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.system.AppSettings;
 
+import java.awt.*;
+
 public class Main extends SimpleApplication {
-    public static final float PIXELS_PER_UNIT = 256f;
+    public static final float PIXELS_PER_UNIT = 512f;
 
     public static WorldManager worldManager;
 
@@ -15,8 +17,16 @@ public class Main extends SimpleApplication {
 
         AppSettings settings = new AppSettings(true);
         settings.setTitle("Titled Goose Game");
-//        settings.setFullscreen(true);
-        settings.setResolution(1920, 1080);
+
+        GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        DisplayMode mode = device.getDisplayMode();
+        settings.setResolution(mode.getWidth(), mode.getHeight());
+        settings.setFullscreen(device.isFullScreenSupported());
+        settings.setVSync(true);
+        settings.setBitsPerPixel(mode.getBitDepth());
+        settings.setFrequency(mode.getRefreshRate());
+        settings.setFrameRate(mode.getRefreshRate());
+
         app.setSettings(settings);
 
         app.start();
@@ -51,6 +61,7 @@ public class Main extends SimpleApplication {
     @Override
     public void simpleUpdate(float tpf) {
         worldManager.getPlayer().move(tpf);
+        worldManager.tick(tpf);
     }
 
 }

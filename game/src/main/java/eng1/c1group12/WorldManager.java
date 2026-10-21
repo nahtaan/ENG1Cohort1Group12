@@ -58,11 +58,9 @@ public class WorldManager {
         int width = texture.getImage().getWidth();
         int height = texture.getImage().getHeight();
 
-        float pixelsPerUnit = 512f;
-
         Quad quad = new Quad(
-                width / pixelsPerUnit,
-                height / pixelsPerUnit
+                width / Main.PIXELS_PER_UNIT,
+                height / Main.PIXELS_PER_UNIT
         );
 
         Geometry background = new Geometry("Background", quad);
@@ -88,6 +86,11 @@ public class WorldManager {
     public Player getPlayer() {
         return player;
     }
+
+    public void tick(float tpf) {
+
+    }
+
 
     public enum Level {
         OUTSIDE("outside");
