@@ -1,3 +1,5 @@
-/game/.gradle
-/game/build/
-/game/.gradle/
+game/.gradle/
+game/build/
+.idea/
+*.iml
+build/

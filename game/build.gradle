@@ -33,3 +33,9 @@ jar {
         )
     }
 }
+
+tasks.register('runGame', Exec) {
+    dependsOn 'build'
+
+    commandLine 'java', '-jar', 'build/libs/game-1.0-all.jar'
+}
