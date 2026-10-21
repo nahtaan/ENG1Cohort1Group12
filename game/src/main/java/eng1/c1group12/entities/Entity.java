@@ -18,12 +18,14 @@ public abstract class Entity {
     private final Texture texture;
     private final Geometry geom;
     private final Node node;
+    public final float width;
+    public final float height;
 
     public Entity(AssetManager assetManager, String name, Texture texture) {
         this.name = name;
         this.texture = texture;
-        float width = texture.getImage().getWidth() / Main.PIXELS_PER_UNIT;
-        float height = texture.getImage().getHeight() / Main.PIXELS_PER_UNIT;
+        this.width = texture.getImage().getWidth() / Main.PIXELS_PER_UNIT;
+        this.height = texture.getImage().getHeight() / Main.PIXELS_PER_UNIT;
         this.geom = new Geometry(name, new CenterQuad(width, height));
         Material material = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         material.setTexture("ColorMap", texture);
@@ -36,7 +38,7 @@ public abstract class Entity {
     /**
      * Called when the entity logic needs to be updated.
      */
-    public abstract void tick();
+    public abstract void tick(float tpf);
 
     public String getName() {
         return name;
