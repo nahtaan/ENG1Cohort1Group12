@@ -1,16 +1,17 @@
-package eng1.c1group12;
+package eng1.c1group12.world;
 
+import com.google.gson.Gson;
 import com.jme3.asset.AssetManager;
-import com.jme3.material.Material;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
-import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-import com.jme3.scene.shape.CenterQuad;
-import com.jme3.texture.Texture;
+import eng1.c1group12.Main;
 import eng1.c1group12.entities.Entity;
 import eng1.c1group12.entities.Player;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -55,25 +56,19 @@ public class WorldManager {
         this.currentLevel = newLevel;
         this.currentEntites = levelEntities.getOrDefault(currentLevel, new ArrayList<>());
 
-        Texture texture = assetManager.loadTexture("Textures/Levels/"+currentLevel.id+".png");
-        texture.setMagFilter(Texture.MagFilter.Nearest);
+        WorldData worldData = loadWorldData(newLevel);
 
-        this.width = texture.getImage().getWidth() / Main.PIXELS_PER_UNIT;
-        this.height = texture.getImage().getHeight() / Main.PIXELS_PER_UNIT;
+        System.out.println(worldData.toString());
 
-        CenterQuad quad = new CenterQuad(
-                width,
-                height
-        );
+    }
 
-        Geometry background = new Geometry("Background", quad);
-
-        Material material = new Material(
-                assetManager, "Common/MatDefs/Misc/Unshaded.j3md"
-        );
-        material.setTexture("ColorMap", texture);
-        background.setMaterial(material);
-        this.root.attachChild(background);
+    private WorldData loadWorldData(Level level) {
+        try (Reader reader = new InputStreamReader(Main.class.getResourceAsStream("/Textures/Levels/" + level.id + "/map.json"))) {
+            return new Gson().fromJson(reader, WorldData.class);
+        }catch (IOException e) {
+            e.printStackTrace(System.err);
+            return null;
+        }
     }
 
     private void loadPlayer() {

@@ -64,6 +64,5 @@ public class Player extends Entity {
         if(pos.y < maxDown) {
             move(0, -(pos.y - maxDown), 0);
         }
-
     }
 }

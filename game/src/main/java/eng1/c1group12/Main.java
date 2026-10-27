@@ -5,6 +5,7 @@ import com.jme3.input.KeyInput;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.system.AppSettings;
 import eng1.c1group12.entities.Goose;
+import eng1.c1group12.world.WorldManager;
 
 import java.awt.*;
 import java.util.Random;
@@ -55,6 +56,7 @@ public class Main extends SimpleApplication {
             );
 
             g.move(random.nextFloat(-2, 2), random.nextFloat(-2, 2), 0);
+            g.getNode().scale(random.nextFloat(random.nextFloat(0.5f,2)));
 
         }
         worldManager.addEntity(new Goose(assetManager, "goose1"));
