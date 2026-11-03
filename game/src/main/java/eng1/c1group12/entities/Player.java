@@ -16,6 +16,8 @@ public class Player extends Entity {
     public Player(AssetManager assetManager, Camera cam) {
         super(assetManager,"Player", assetManager.loadTexture("Textures/Entities/player.png"));
         this.camera = cam;
+        // player always on top
+        getNode().setLocalTranslation(0, 0, 0.1f);
     }
 
     public void move(float tpf) {
@@ -46,23 +48,23 @@ public class Player extends Entity {
         // world border collision check
         float worldWidth = Main.worldManager.getWidth();
         float worldHeight = Main.worldManager.getHeight();
-        float maxLeft = worldWidth / -2;
-        float maxRight = worldWidth / 2;
-        float maxUp = worldHeight / 2;
-        float maxDown = worldHeight / -2;
 
         Vector3f pos = getNode().getLocalTranslation();
-        if(pos.x < maxLeft) {
-            move(-(pos.x - maxLeft), 0, 0);
+        // left side
+        if(pos.x < width/2) {
+            move(Math.abs(pos.x-width/2), 0, 0);
         }
-        if(pos.x > maxRight) {
-            move(-(pos.x - maxRight), 0,0);
+        // right side
+        if(pos.x > worldWidth-(width/2)) {
+            move(-Math.abs(pos.x - (worldWidth-width/2)), 0,0);
         }
-        if(pos.y > maxUp) {
-            move(0, -(pos.y - maxUp), 0);
+        // top
+        if(pos.y > worldHeight-(height/2)) {
+            move(0, -Math.abs(pos.y - (worldWidth-width/2)), 0);
         }
-        if(pos.y < maxDown) {
-            move(0, -(pos.y - maxDown), 0);
+        // bottom
+        if(pos.y < height/2) {
+            move(0, Math.abs(pos.y-height/2), 0);
         }
     }
 }

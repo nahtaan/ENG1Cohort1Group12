@@ -3,6 +3,7 @@ package eng1.c1group12.entities;
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
 import com.jme3.material.RenderState;
+import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.CenterQuad;
@@ -30,6 +31,8 @@ public abstract class Entity {
         Material material = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         material.setTexture("ColorMap", texture);
         material.getAdditionalRenderState().setBlendMode(RenderState.BlendMode.Alpha);
+        // Very important, makes all entities render transparency properly!
+        geom.setQueueBucket(RenderQueue.Bucket.Transparent);
         geom.setMaterial(material);
         this.node = new Node(name);
         node.attachChild(geom);
