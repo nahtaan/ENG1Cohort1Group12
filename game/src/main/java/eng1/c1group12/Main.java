@@ -4,10 +4,9 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.system.AppSettings;
-import eng1.c1group12.entities.Goose;
+import eng1.c1group12.world.WorldManager;
 
 import java.awt.*;
-import java.util.Random;
 
 public class Main extends SimpleApplication {
     public static final float PIXELS_PER_UNIT = 512f;
@@ -38,6 +37,8 @@ public class Main extends SimpleApplication {
     public void simpleInitApp() {
         flyCam.setEnabled(false);
         registerInputs();
+        setDisplayFps(false);
+        setDisplayStatView(false);
 
         worldManager = new WorldManager(rootNode, assetManager, cam, WorldManager.Level.OUTSIDE);
 
@@ -47,17 +48,17 @@ public class Main extends SimpleApplication {
 //        worldManager.loadLevel(WorldManager.Level.TEST);
 //        worldManager.addEntity(worldManager.getPlayer());
 
-        Random random = new Random();
-        for (int i = 0; i < 1000; i++) {
-            Goose g = new Goose(assetManager, "goose" + i);
-            worldManager.addEntity(
-                    g
-            );
-
-            g.move(random.nextFloat(-2, 2), random.nextFloat(-2, 2), 0);
-
-        }
-        worldManager.addEntity(new Goose(assetManager, "goose1"));
+//        Random random = new Random();
+//        for (int i = 0; i < 1000; i++) {
+//            Goose g = new Goose(assetManager, "goose" + i);
+//            worldManager.addEntity(
+//                    g
+//            );
+//
+//            g.move(random.nextFloat(-2, 2), random.nextFloat(-2, 2), 0);
+//            g.getNode().scale(random.nextFloat(0.5f,1.5f));
+//
+//        }
     }
 
     private void registerInputs() {
