@@ -11,7 +11,6 @@ import eng1.c1group12.world.WorldManager;
 import java.awt.*;
 
 public class Main extends SimpleApplication {
-    public static final float PIXELS_PER_UNIT = 512f;
 
     public static WorldManager worldManager;
     public static UIManager uiManager;
@@ -48,21 +47,6 @@ public class Main extends SimpleApplication {
 
         worldManager.getPlayer().attachInputListener(inputManager);
 
-//        Uncomment to load testing level
-//        worldManager.loadLevel(WorldManager.Level.TEST);
-//        worldManager.addEntity(worldManager.getPlayer());
-
-//        Random random = new Random();
-//        for (int i = 0; i < 1000; i++) {
-//            Goose g = new Goose(assetManager, "goose" + i);
-//            worldManager.addEntity(
-//                    g
-//            );
-//
-//            g.move(random.nextFloat(-2, 2), random.nextFloat(-2, 2), 0);
-//            g.getNode().scale(random.nextFloat(0.5f,1.5f));
-//
-//        }
     }
 
     public void endGame() {
@@ -100,7 +84,6 @@ public class Main extends SimpleApplication {
 
     @Override
     public void simpleUpdate(float tpf) {
-        worldManager.getPlayer().move(tpf);
         worldManager.tick(tpf);
         uiManager.tick(tpf);
     }

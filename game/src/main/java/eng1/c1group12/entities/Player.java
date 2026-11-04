@@ -14,25 +14,20 @@ public class Player extends Entity {
     private final Camera camera;
 
     public Player(AssetManager assetManager, Camera cam) {
-        super(assetManager,"Player", assetManager.loadTexture("Textures/Entities/player.png"));
+        super(assetManager,"Player", "player");
         this.camera = cam;
         // player always on top
         getNode().setLocalTranslation(0, 0, 0.1f);
-    }
-
-    public void move(float tpf) {
-        move(moveX * speed * tpf, moveY * speed * tpf, 0);
-        moveX = 0;
-        moveY = 0;
+        animationHandler.showCell(1,1);
     }
 
     public void attachInputListener(InputManager inputManager) {
         inputManager.addListener((AnalogListener) (name, value, tpf) -> {
             switch (name) {
-                case "Left" -> this.moveX = -1;
-                case "Right" -> this.moveX = 1;
-                case "Up" -> this.moveY = 1;
-                case "Down" -> this.moveY = -1;
+                case "Left" -> this.moveX -= 1;
+                case "Right" -> this.moveX += 1;
+                case "Up" -> this.moveY += 1;
+                case "Down" -> this.moveY -= 1;
             }
         }, "Left", "Right", "Up", "Down");
     }
@@ -45,6 +40,11 @@ public class Player extends Entity {
 
     @Override
     public void tick(float tpf) {
+        animationHandler.update(tpf, moveX, moveY);
+        move(moveX * speed * tpf, moveY * speed * tpf, 0);
+        moveX = 0;
+        moveY = 0;
+
         // world border collision check
         float worldWidth = Main.worldManager.getWidth();
         float worldHeight = Main.worldManager.getHeight();
@@ -60,7 +60,7 @@ public class Player extends Entity {
         }
         // top
         if(pos.y > worldHeight-(height/2)) {
-            move(0, -Math.abs(pos.y - (worldWidth-width/2)), 0);
+            move(0, -Math.abs(pos.y - (worldHeight-width/2)), 0);
         }
         // bottom
         if(pos.y < height/2) {
