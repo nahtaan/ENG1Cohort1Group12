@@ -16,8 +16,8 @@ public class Player extends Entity {
     public Player(AssetManager assetManager, Camera cam) {
         super(assetManager,"Player", "player");
         this.camera = cam;
-        // player always on top
-        getNode().setLocalTranslation(0, 0, 0.1f);
+        // set player start position
+        getNode().setLocalTranslation(24.7f, 10.3f, 0.1f);
         animationHandler.showCell(1,1);
     }
 
