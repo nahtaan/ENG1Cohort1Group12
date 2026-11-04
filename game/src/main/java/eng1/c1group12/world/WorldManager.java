@@ -63,7 +63,6 @@ public class WorldManager {
         this.currentEntites = levelEntities.getOrDefault(currentLevel, new ArrayList<>());
 
         WorldData worldData = loadWorldData(newLevel);
-        System.out.println(worldData);
         if (worldData == null) return false;
 
         this.width = ((float)worldData.tile_res() * worldData.x()) / worldData.pixels_per_unit();
