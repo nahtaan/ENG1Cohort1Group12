@@ -10,7 +10,8 @@ public class Goose extends Entity {
     private final float speed = new Random().nextFloat(0.3f, 0.9f);
 
     public Goose(AssetManager assetManager, String name) {
-        super(assetManager, name, assetManager.loadTexture("Textures/Entities/goose1.png"));
+        //todo: fix goose textures
+        super(assetManager, name, "");
     }
 
     @Override
