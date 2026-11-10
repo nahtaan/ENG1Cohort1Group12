@@ -6,12 +6,17 @@ import com.jme3.input.controls.AnalogListener;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import eng1.c1group12.Main;
+import eng1.c1group12.world.item.Item;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Player extends Entity {
     private float moveX;
     private float moveY;
     private final float speed = 1f;
     private final Camera camera;
+    private final List<Item> inventory = new ArrayList<>();
 
     public Player(AssetManager assetManager, Camera cam) {
         super(assetManager,"Player", "player");
@@ -30,6 +35,10 @@ public class Player extends Entity {
                 case "Down" -> this.moveY -= 1;
             }
         }, "Left", "Right", "Up", "Down");
+    }
+
+    public List<Item> getInventory() {
+        return inventory;
     }
 
     @Override
