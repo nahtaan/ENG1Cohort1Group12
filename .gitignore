@@ -1,5 +1,4 @@
-game/.gradle/
-game/build/
 .idea/
+game/build/
 *.iml
 build/
