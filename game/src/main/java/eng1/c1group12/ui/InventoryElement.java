@@ -22,6 +22,10 @@ public class InventoryElement extends UIElement {
         getNode().setLocalTranslation(0, Main.uiManager.screenHeight-150, 0);
     }
 
+    public void refreshInventoryUI() {
+        buildInventory(Main.worldManager.getPlayer().getInventory());
+    }
+
     private void buildInventory(List<Item> items) {
         getNode().detachAllChildren();
         for (int i = 0; i < items.size(); i++) {

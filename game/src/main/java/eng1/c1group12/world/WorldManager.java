@@ -105,6 +105,7 @@ public class WorldManager {
     }
 
     private WorldData loadWorldData(Level level) {
+        // noinspection ConstantConditions
         try (Reader reader = new InputStreamReader(Main.class.getResourceAsStream("/Textures/Levels/" + level.id + "/map.json"))) {
             return new Gson().fromJson(reader, WorldData.class);
         }catch (IOException e) {
@@ -123,6 +124,16 @@ public class WorldManager {
         this.root.attachChild(entity.getNode());
     }
 
+    public void removeEntity(String name) {
+        for (Entity e: currentEntites) {
+            if(e.getName().equals(name)) {
+                post_tick_removal.add(e);
+                return;
+            }
+        }
+    }
+
+
     public Player getPlayer() {
         return player;
     }
@@ -135,10 +146,18 @@ public class WorldManager {
         return height;
     }
 
+    // Avoids concurrentmodification exception
+    private final List<Entity> post_tick_removal = new ArrayList<>();
+
     public void tick(float tpf) {
         for (Entity entity: currentEntites) {
             entity.tick(tpf);
         }
+        for(Entity entity: post_tick_removal) {
+            root.detachChild(entity.getNode());
+            currentEntites.remove(entity);
+        }
+        post_tick_removal.clear();
     }
 
 

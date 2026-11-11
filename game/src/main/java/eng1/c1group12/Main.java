@@ -8,7 +8,6 @@ import eng1.c1group12.ui.InventoryElement;
 import eng1.c1group12.ui.TimerElement;
 import eng1.c1group12.ui.UIManager;
 import eng1.c1group12.world.WorldManager;
-import eng1.c1group12.world.item.Item;
 
 import java.awt.*;
 
@@ -47,14 +46,8 @@ public class Main extends SimpleApplication {
         worldManager = new WorldManager(rootNode, assetManager, cam, WorldManager.Level.OUTSIDE);
 
         worldManager.getPlayer().attachInputListener(inputManager);
-        setupUI();
-    }
 
-    public void endGame() {
-        stop(false);
-    }
-
-    private void setupUI() {
+        // setup UI
         uiManager = new UIManager(guiNode, assetManager, cam);
 
         // create the game timer
@@ -68,6 +61,10 @@ public class Main extends SimpleApplication {
         // create the inventory UI
         InventoryElement inventory = new InventoryElement("Inventory", assetManager);
         uiManager.addElement(inventory);
+    }
+
+    public void endGame() {
+        stop(false);
     }
 
 
