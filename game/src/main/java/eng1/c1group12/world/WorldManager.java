@@ -14,6 +14,7 @@ import com.jme3.texture.Texture;
 import eng1.c1group12.Main;
 import eng1.c1group12.entities.Entity;
 import eng1.c1group12.entities.Player;
+import eng1.c1group12.ui.InventoryElement;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -35,13 +36,13 @@ public class WorldManager {
     private List<Entity> currentEntites;
     private final Map<Level, List<Entity>> levelEntities = new HashMap<>();
 
-    public WorldManager(Node rootNode, AssetManager assetManager, Camera camera, Level initialLevel) {
+    public WorldManager(Node rootNode, AssetManager assetManager, Camera camera, Level initialLevel, InventoryElement inventoryUI) {
         this.root = rootNode;
         this.assetManager = assetManager;
         this.camera = camera;
         setupCamera();
         if (!loadLevel(initialLevel)) throw new RuntimeException("Unable to load world.");
-        loadPlayer();
+        loadPlayer(inventoryUI);
     }
 
     private void setupCamera() {
@@ -114,8 +115,8 @@ public class WorldManager {
         }
     }
 
-    private void loadPlayer() {
-        this.player = new Player(assetManager, camera);
+    private void loadPlayer(InventoryElement inventoryUI) {
+        this.player = new Player(assetManager, camera, inventoryUI);
         addEntity(this.player);
     }
 
