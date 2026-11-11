@@ -17,8 +17,6 @@ public class InventoryElement extends UIElement {
     public InventoryElement(String name, AssetManager assetManager) {
         super(name);
         this.assetManager = assetManager;
-
-        buildInventory(Main.worldManager.getPlayer().getInventory());
         getNode().setLocalTranslation(0, Main.uiManager.screenHeight-150, 0);
     }
 
