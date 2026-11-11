@@ -14,6 +14,7 @@ import com.jme3.texture.Texture;
 import eng1.c1group12.Main;
 import eng1.c1group12.entities.Entity;
 import eng1.c1group12.entities.Player;
+import eng1.c1group12.world.item.Item;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -33,7 +34,9 @@ public class WorldManager {
     private Level currentLevel;
     private Player player;
     private List<Entity> currentEntites;
+    private List<Item> currentItems;
     private final Map<Level, List<Entity>> levelEntities = new HashMap<>();
+    private final Map<Level, List<Item>> levelItems = new HashMap<>();
 
     public WorldManager(Node rootNode, AssetManager assetManager, Camera camera, Level initialLevel) {
         this.root = rootNode;
@@ -54,13 +57,15 @@ public class WorldManager {
     }
 
     public boolean loadLevel(Level newLevel) {
-        if(currentLevel != null && this.currentEntites != null) {
+        if(currentLevel != null && this.currentEntites != null && this.currentItems != null) {
             levelEntities.put(this.currentLevel, this.currentEntites);
+            levelItems.put(this.currentLevel, this.currentItems);
         }
         root.detachAllChildren();
 
         this.currentLevel = newLevel;
         this.currentEntites = levelEntities.getOrDefault(currentLevel, new ArrayList<>());
+        this.currentItems = levelItems.getOrDefault(currentLevel, new ArrayList<>());
 
         WorldData worldData = loadWorldData(newLevel);
         if (worldData == null) return false;
@@ -121,7 +126,20 @@ public class WorldManager {
     public void addEntity(Entity entity) {
         currentEntites.add(entity);
         this.root.attachChild(entity.getNode());
+        if(entity instanceof Item i) {
+            currentItems.add(i);
+        }
     }
+
+    public void removeEntity(String name) {
+        for (Entity e: currentEntites) {
+            if(e.getName().equals(name)) {
+                post_tick_removal.add(e);
+                return;
+            }
+        }
+    }
+
 
     public Player getPlayer() {
         return player;
@@ -135,10 +153,20 @@ public class WorldManager {
         return height;
     }
 
+    // Avoids concurrentmodification exception
+    private final List<Entity> post_tick_removal = new ArrayList<>();
+
     public void tick(float tpf) {
         for (Entity entity: currentEntites) {
             entity.tick(tpf);
         }
+        for(Entity entity: post_tick_removal) {
+            root.detachChild(entity.getNode());
+            if(entity instanceof Item i) {
+                currentItems.remove(i);
+            }
+        }
+        post_tick_removal.clear();
     }
 
 
