@@ -6,7 +6,7 @@ import com.jme3.material.RenderState;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Quad;
 import eng1.c1group12.Main;
-import eng1.c1group12.entities.item.Item;
+import eng1.c1group12.world.item.Item;
 
 import java.util.List;
 

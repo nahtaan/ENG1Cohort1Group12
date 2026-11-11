@@ -22,9 +22,9 @@ import java.nio.FloatBuffer;
 public abstract class Entity {
 
     protected final String name;
-    protected final Texture texture;
+    protected Texture texture;
     protected final AnimationHandler animationHandler;
-    protected final Geometry geom;
+    protected Geometry geom;
     protected final Node node;
     public float width;
     public float height;
@@ -73,6 +73,10 @@ public abstract class Entity {
         return node;
     }
 
+
+    /**
+     * Contains logic
+     */
     public class AnimationHandler {
         private final AnimationInfo info;
 

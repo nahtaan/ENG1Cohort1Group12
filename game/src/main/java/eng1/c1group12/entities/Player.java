@@ -6,7 +6,7 @@ import com.jme3.input.controls.AnalogListener;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import eng1.c1group12.Main;
-import eng1.c1group12.entities.item.Item;
+import eng1.c1group12.world.item.Item;
 
 import java.util.ArrayList;
 import java.util.List;

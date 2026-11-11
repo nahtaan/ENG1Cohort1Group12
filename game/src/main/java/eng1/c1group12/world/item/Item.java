@@ -1,21 +1,19 @@
-package eng1.c1group12.entities.item;
+package eng1.c1group12.world.item;
 
 import com.google.gson.Gson;
 import com.jme3.asset.AssetManager;
 import com.jme3.texture.Texture;
 import eng1.c1group12.Main;
-import eng1.c1group12.entities.Entity;
 
 import java.io.InputStreamReader;
 
-public abstract class Item extends Entity {
+public abstract class Item {
 
     protected final String name;
     protected final Texture texture;
     protected final ItemTextureData data;
 
     public Item(String name, AssetManager assetManager) {
-        super(assetManager, name, name);
         this.name = name;
         this.texture = assetManager.loadTexture("Textures/Items/"+name+"/item.png");
         texture.setMagFilter(Texture.MagFilter.Nearest);
