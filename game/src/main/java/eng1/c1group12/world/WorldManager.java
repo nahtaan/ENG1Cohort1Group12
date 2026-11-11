@@ -105,6 +105,7 @@ public class WorldManager {
     }
 
     private WorldData loadWorldData(Level level) {
+        // noinspection ConstantConditions
         try (Reader reader = new InputStreamReader(Main.class.getResourceAsStream("/Textures/Levels/" + level.id + "/map.json"))) {
             return new Gson().fromJson(reader, WorldData.class);
         }catch (IOException e) {
@@ -154,6 +155,7 @@ public class WorldManager {
         }
         for(Entity entity: post_tick_removal) {
             root.detachChild(entity.getNode());
+            currentEntites.remove(entity);
         }
         post_tick_removal.clear();
     }

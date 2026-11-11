@@ -46,14 +46,8 @@ public class Main extends SimpleApplication {
         worldManager = new WorldManager(rootNode, assetManager, cam, WorldManager.Level.OUTSIDE);
 
         worldManager.getPlayer().attachInputListener(inputManager);
-        setupUI();
-    }
 
-    public void endGame() {
-        stop(false);
-    }
-
-    private void setupUI() {
+        // setup UI
         uiManager = new UIManager(guiNode, assetManager, cam);
 
         // create the game timer
@@ -67,6 +61,10 @@ public class Main extends SimpleApplication {
         // create the inventory UI
         InventoryElement inventory = new InventoryElement("Inventory", assetManager);
         uiManager.addElement(inventory);
+    }
+
+    public void endGame() {
+        stop(false);
     }
 
 
