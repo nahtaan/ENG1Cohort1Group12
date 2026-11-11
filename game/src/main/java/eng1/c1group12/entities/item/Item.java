@@ -1,4 +1,4 @@
-package eng1.c1group12.world.item;
+package eng1.c1group12.entities.item;
 
 import com.google.gson.Gson;
 import com.jme3.asset.AssetManager;

@@ -8,7 +8,6 @@ import eng1.c1group12.ui.InventoryElement;
 import eng1.c1group12.ui.TimerElement;
 import eng1.c1group12.ui.UIManager;
 import eng1.c1group12.world.WorldManager;
-import eng1.c1group12.world.item.Item;
 
 import java.awt.*;
 

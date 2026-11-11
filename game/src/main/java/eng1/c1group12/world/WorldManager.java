@@ -14,7 +14,7 @@ import com.jme3.texture.Texture;
 import eng1.c1group12.Main;
 import eng1.c1group12.entities.Entity;
 import eng1.c1group12.entities.Player;
-import eng1.c1group12.world.item.Item;
+import eng1.c1group12.entities.item.Item;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
