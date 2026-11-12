@@ -33,7 +33,7 @@ public abstract class Item {
     /**
      * Called when the item is attempted to be used by the player.
      */
-    public abstract void useItem();
+    public abstract boolean attemptUseItem();
 
     /**
      * Called when the item enters the player's inventory.

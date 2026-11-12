@@ -86,6 +86,9 @@ public abstract class Entity {
         private float timer = 0;
         private int frame;
 
+        public AnimationInfo getInfo() {
+            return info;
+        }
 
 
         public AnimationHandler(String texture_name) {
@@ -150,7 +153,7 @@ public abstract class Entity {
             vb.updateData(fb);
         }
 
-        private record AnimationInfo(
+        public record AnimationInfo(
                 int res,
                 int pixels_per_unit,
                 float frame_time,

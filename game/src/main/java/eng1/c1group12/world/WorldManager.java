@@ -49,6 +49,47 @@ public class WorldManager {
         loadEvents(eventUI);
     }
 
+    public List<Goose> getNearestHungryGeese(int count) {
+        List<Goose> nearest = new ArrayList<>();
+        Vector3f pPos = player.getNode().getLocalTranslation();
+
+        for (Entity e : currentEntites) {
+            if (e instanceof Goose g && g.isHungry()) {
+                Vector3f gPos = g.getNode().getLocalTranslation();
+
+                float dx = pPos.x - gPos.x;
+                float dy = pPos.y - gPos.y;
+                float distance = dx * dx + dy * dy;
+
+                if (nearest.size() < count) {
+                    nearest.add(g);
+                } else {
+                    int furthestIndex = 0;
+                    float furthestDistance = -1;
+
+                    for (int i = 0; i < nearest.size(); i++) {
+                        Vector3f pos = nearest.get(i).getNode().getLocalTranslation();
+
+                        float fx = pPos.x - pos.x;
+                        float fy = pPos.y - pos.y;
+                        float d = fx * fx + fy * fy;
+
+                        if (d > furthestDistance) {
+                            furthestDistance = d;
+                            furthestIndex = i;
+                        }
+                    }
+
+                    if (distance < furthestDistance) {
+                        nearest.set(furthestIndex, g);
+                    }
+                }
+            }
+        }
+
+        return nearest;
+    }
+
     private void setupCamera() {
         this.camera.setParallelProjection(true);
         this.camera.setLocation(new Vector3f(0, 0, 10));
