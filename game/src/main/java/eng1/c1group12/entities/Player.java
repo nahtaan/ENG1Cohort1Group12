@@ -95,9 +95,23 @@ public class Player extends Entity {
     @Override
     public void tick(float tpf) {
         animationHandler.update(tpf, moveX, moveY);
-        move(moveX * speed * tpf, moveY * speed * tpf, 0);
+        float changeX = moveX * speed * tpf;
+        float changeY = moveY * speed * tpf;
+        // Check horizontal movement
+        if (!Main.worldManager.isGooseBlocking(
+                getNode().getLocalTranslation().x + changeX,
+                getNode().getLocalTranslation().y)) {
+            move(changeX, 0, 0);
+        }
+        // Check vertical movement
+        if (!Main.worldManager.isGooseBlocking(
+                getNode().getLocalTranslation().x,
+                getNode().getLocalTranslation().y + changeY)) {
+            move(0, changeY, 0);
+        }
         moveX = 0;
         moveY = 0;
+
 
         // world border collision check
         float worldWidth = Main.worldManager.getWidth();
@@ -114,7 +128,7 @@ public class Player extends Entity {
         }
         // top
         if(pos.y > worldHeight-(height/2)) {
-            move(0, -Math.abs(pos.y - (worldHeight-width/2)), 0);
+            move(0, -Math.abs(pos.y - (worldHeight-height/2)), 0);
         }
         // bottom
         if(pos.y < height/2) {

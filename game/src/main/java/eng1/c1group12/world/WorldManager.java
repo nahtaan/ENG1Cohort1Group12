@@ -42,6 +42,7 @@ public class WorldManager {
     private EventElement eventDisplay;
 
 
+
     public void setEventDisplay(EventElement eventDisplay) {
         this.eventDisplay = eventDisplay;
     }
@@ -212,6 +213,21 @@ public class WorldManager {
                 System.out.println("Total events: " + eventsTriggered);
             }
         }
+    }
+
+
+    public boolean isGooseBlocking(float x, float y) {
+        for (Entity entity : currentEntites) {
+            if (entity instanceof Goose) {
+                Vector3f goosePos = entity.getNode().getLocalTranslation();
+                float dx = x - goosePos.x;
+                float dy = y - goosePos.y;
+                if (dx * dx + dy * dy < 0.6f * 0.6f) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
 
