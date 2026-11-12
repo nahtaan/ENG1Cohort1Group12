@@ -7,6 +7,7 @@ import com.jme3.input.controls.AnalogListener;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import eng1.c1group12.Main;
+import eng1.c1group12.ui.EventElement;
 import eng1.c1group12.ui.InventoryElement;
 import eng1.c1group12.world.item.Item;
 
@@ -21,11 +22,13 @@ public class Player extends Entity {
     private final Camera camera;
     private final List<Item> inventory = new ArrayList<>();
     private final InventoryElement inventoryUI;
+    private final EventElement eventUI;
 
-    public Player(AssetManager assetManager, Camera cam, InventoryElement inventoryUI) {
+    public Player(AssetManager assetManager, Camera cam, InventoryElement inventoryUI, EventElement eventUI) {
         super(assetManager,"Player", "player");
         this.camera = cam;
         this.inventoryUI = inventoryUI;
+        this.eventUI = eventUI;
         // set player start position
         getNode().setLocalTranslation(24.7f, 10.3f, 0.1f);
         animationHandler.showCell(1,1);
@@ -81,6 +84,7 @@ public class Player extends Entity {
             if(!item.attemptUseItem()) return;
             inventory.remove(slot.index);
             inventoryUI.refreshInventoryUI();
+            eventUI.useItem();
         }catch (IndexOutOfBoundsException ignored) {}
     }
 

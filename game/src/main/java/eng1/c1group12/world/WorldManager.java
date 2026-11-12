@@ -45,7 +45,7 @@ public class WorldManager {
         this.camera = camera;
         setupCamera();
         if (!loadLevel(initialLevel)) throw new RuntimeException("Unable to load world.");
-        loadPlayer(inventoryUI);
+        loadPlayer(inventoryUI, eventUI);
         loadEvents(eventUI);
     }
 
@@ -210,8 +210,8 @@ public class WorldManager {
         }
     }
 
-    private void loadPlayer(InventoryElement inventoryUI) {
-        this.player = new Player(assetManager, camera, inventoryUI);
+    private void loadPlayer(InventoryElement inventoryUI, EventElement eventUI) {
+        this.player = new Player(assetManager, camera, inventoryUI, eventUI);
         addEntity(this.player);
     }
 
