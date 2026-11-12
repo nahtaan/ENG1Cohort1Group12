@@ -97,18 +97,15 @@ public class Player extends Entity {
         animationHandler.update(tpf, moveX, moveY);
         float changeX = moveX * speed * tpf;
         float changeY = moveY * speed * tpf;
-        // Check horizontal movement
-        if (!Main.worldManager.isGooseBlocking(
-                getNode().getLocalTranslation().x + changeX,
-                getNode().getLocalTranslation().y)) {
-            move(changeX, 0, 0);
+        // Check if a goose is blocking the player's next position
+        float nextX = getNode().getLocalTranslation().x + changeX;
+        float nextY = getNode().getLocalTranslation().y + changeY;
+        if (Main.worldManager.isGooseBlocking(nextX, nextY)) {
+            // Slow the player down when moving into a goose
+            changeX *= 0.5f;
+            changeY *= 0.5f;
         }
-        // Check vertical movement
-        if (!Main.worldManager.isGooseBlocking(
-                getNode().getLocalTranslation().x,
-                getNode().getLocalTranslation().y + changeY)) {
-            move(0, changeY, 0);
-        }
+        move(changeX, changeY, 0);
         moveX = 0;
         moveY = 0;
 
