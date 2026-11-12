@@ -100,7 +100,7 @@ public class Player extends Entity {
         // Check if a goose is blocking the player's next position
         float nextX = getNode().getLocalTranslation().x + changeX;
         float nextY = getNode().getLocalTranslation().y + changeY;
-        if (Main.worldManager.isGooseBlocking(nextX, nextY)) {
+        if (Main.worldManager.isEntityAtPos(nextX, nextY, Goose.class)) {
             // Slow the player down when moving into a goose
             changeX *= 0.5f;
             changeY *= 0.5f;
@@ -108,7 +108,6 @@ public class Player extends Entity {
         move(changeX, changeY, 0);
         moveX = 0;
         moveY = 0;
-
 
         // world border collision check
         float worldWidth = Main.worldManager.getWidth();

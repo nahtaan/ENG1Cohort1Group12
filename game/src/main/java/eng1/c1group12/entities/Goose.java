@@ -2,9 +2,9 @@ package eng1.c1group12.entities;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.math.Vector3f;
-import eng1.c1group12.Main;
 import com.jme3.scene.shape.CenterQuad;
 import com.jme3.texture.Texture;
+import eng1.c1group12.Main;
 
 import java.util.Random;
 

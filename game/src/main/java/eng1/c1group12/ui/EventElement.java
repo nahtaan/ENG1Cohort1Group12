@@ -8,6 +8,7 @@ public class EventElement extends UIElement {
     private final BitmapText counterText;
     private final BitmapText messageText;
     private float messageTime = 0;
+    private int eventCount = 0;
 
     public EventElement(String name, AssetManager assetManager,
                         int screenWidth, int screenHeight) {
@@ -28,10 +29,11 @@ public class EventElement extends UIElement {
         getNode().attachChild(messageText);
     }
 
-    public void showEvent(String message, int count) {
-        counterText.setText("Events: " + count + "/2");
+    public void showEvent(String message) {
         messageText.setText(message);
         messageTime = 4f;
+        eventCount += 1;
+        counterText.setText("Events: " + eventCount);
     }
 
     @Override

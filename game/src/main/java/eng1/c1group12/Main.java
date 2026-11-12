@@ -3,15 +3,15 @@ package eng1.c1group12;
 import com.jme3.app.SimpleApplication;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.KeyTrigger;
+import com.jme3.math.Vector3f;
 import com.jme3.system.AppSettings;
 import com.jme3.system.Timer;
+import eng1.c1group12.entities.Goose;
+import eng1.c1group12.ui.EventElement;
 import eng1.c1group12.ui.InventoryElement;
 import eng1.c1group12.ui.TimerElement;
 import eng1.c1group12.ui.UIManager;
 import eng1.c1group12.world.WorldManager;
-import com.jme3.math.Vector3f;
-import eng1.c1group12.entities.Goose;
-import eng1.c1group12.ui.EventElement;
 
 import java.awt.*;
 
@@ -53,9 +53,6 @@ public class Main extends SimpleApplication {
         uiManager = new UIManager(guiNode, assetManager, cam);
         // create the inventory UI so it can be referenced elsewhere
         InventoryElement inventory = new InventoryElement("Inventory", assetManager);
-
-        worldManager = new WorldManager(rootNode, assetManager, cam, WorldManager.Level.OUTSIDE, inventory);
-
         // Create the hidden event UI
         EventElement eventUI = new EventElement(
                 "Events",
@@ -64,7 +61,8 @@ public class Main extends SimpleApplication {
                 uiManager.screenHeight
         );
         uiManager.addElement(eventUI);
-        worldManager.setEventDisplay(eventUI);
+
+        worldManager = new WorldManager(rootNode, assetManager, cam, WorldManager.Level.OUTSIDE, inventory, eventUI);
 
         // Spawn three geese near the player
         Vector3f playerPos = worldManager.getPlayer().getNode().getLocalTranslation();
@@ -78,7 +76,6 @@ public class Main extends SimpleApplication {
             );
             worldManager.addEntity(goose);
         }
-
 
         worldManager.getPlayer().attachInputListener(inputManager);
 
