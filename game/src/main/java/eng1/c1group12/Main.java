@@ -2,6 +2,7 @@ package eng1.c1group12;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.input.KeyInput;
+import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.math.Vector3f;
 import com.jme3.system.AppSettings;
@@ -22,6 +23,11 @@ public class Main extends SimpleApplication {
     public static UIManager uiManager;
     public static Spawner spawner;
     public static Timer timer;
+    private static boolean paused = true;
+
+    public static boolean isPaused() {
+        return paused;
+    }
 
     public static void main(String[] args) {
         Main app = new Main();
@@ -82,7 +88,7 @@ public class Main extends SimpleApplication {
         worldManager.getPlayer().attachInputListener(inputManager);
 
         // create the game timer
-        TimerElement clock = new TimerElement("Timer", assetManager, timer, 60 * 5, ()->{
+        TimerElement clock = new TimerElement("Timer", assetManager, 60 * 5, ()->{
             // runs once the timer reaches 0
             uiManager.removeElement("Timer");
             endGame();
@@ -90,7 +96,7 @@ public class Main extends SimpleApplication {
         uiManager.addElement(clock);
         uiManager.addElement(inventory);
 
-        spawner = new Spawner(timer, assetManager, inventory);
+        spawner = new Spawner(assetManager, inventory);
     }
 
     public void endGame() {
@@ -117,11 +123,20 @@ public class Main extends SimpleApplication {
         inputManager.addMapping("item-2", new KeyTrigger(KeyInput.KEY_2));
         inputManager.addMapping("item-3", new KeyTrigger(KeyInput.KEY_3));
         inputManager.addMapping("item-4", new KeyTrigger(KeyInput.KEY_4));
+        inputManager.addMapping("pause", new KeyTrigger(KeyInput.KEY_P));
+        inputManager.addListener((ActionListener) (name, isPressed, tpf) -> {
+            if(isPressed){
+                paused = !paused;
+            }
+        },"pause");
     }
 
 
     @Override
     public void simpleUpdate(float tpf) {
+        if(paused) {
+            return;
+        }
         worldManager.tick(tpf);
         uiManager.tick(tpf);
         spawner.tick(tpf);

@@ -18,7 +18,7 @@ public class EventElement extends UIElement {
         // Display the number of events triggered
         counterText = new BitmapText(font);
         counterText.setSize(20);
-        counterText.setText("Events: 0/2");
+        counterText.setText("Events: 0");
         counterText.setLocalTranslation(screenWidth - 200, screenHeight - 35, 0);
         getNode().attachChild(counterText);
 

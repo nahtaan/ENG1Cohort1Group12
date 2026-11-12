@@ -2,7 +2,6 @@ package eng1.c1group12.world;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.math.Vector3f;
-import com.jme3.system.Timer;
 import eng1.c1group12.Main;
 import eng1.c1group12.entities.Goose;
 import eng1.c1group12.entities.ItemEntity;
@@ -15,9 +14,10 @@ import java.util.*;
 
 public class Spawner {
 
-    private final Timer timer;
     private final AssetManager assetManager;
     private final InventoryElement inventoryUI;
+
+    private float time_passed = 0;
 
     private final Map<ItemEntity, Float> baguette_entities = new HashMap<>();
     private float last_baguette_spawn = 0;
@@ -27,8 +27,7 @@ public class Spawner {
 
     private float last_flock_spawn = -20; // start at -20 so a flock spawns as soon as the game starts.
 
-    public Spawner(Timer timer, AssetManager assetManager, InventoryElement inventoryUI) {
-        this.timer = timer;
+    public Spawner(AssetManager assetManager, InventoryElement inventoryUI) {
         this.assetManager = assetManager;
         this.inventoryUI = inventoryUI;
     }
@@ -46,33 +45,34 @@ public class Spawner {
     private final int FLOCK_SPAWN_COOLDOWN = 20;
 
     public void tick(float tpf) {
+        time_passed += tpf;
         // item spawning
 
         // 3 baguettes at one time on the map, after that no more spawn. Including the ones in the inventory.
         // Baguettes despawn after 30 seconds. Spawn cooldown of 10 seconds
-        if(baguetteCount() < BAGUETTE_MAX && timer.getTimeInSeconds() - last_baguette_spawn > BAGUETTE_SPAWN_COOLDOWN) {
+        if(baguetteCount() < BAGUETTE_MAX && time_passed - last_baguette_spawn > BAGUETTE_SPAWN_COOLDOWN) {
             // spawn new baguette item
             ItemEntity baguette = genBaguetteEntity();
-            last_baguette_spawn = timer.getTimeInSeconds();
+            last_baguette_spawn = time_passed;
             baguette_entities.put(baguette, last_baguette_spawn);
             Main.worldManager.addEntity(baguette);
         }
 
         // 1 water blaster at most on the map, including the inventory. Spawns randomly anywhere on the map
         // spawns at most every 20 seconds
-        if(waterBlasterCount() == 0 && timer.getTimeInSeconds() - last_water_blaster_spawn > WATER_BLASTER_COOLDOWN) {
+        if(waterBlasterCount() == 0 && time_passed - last_water_blaster_spawn > WATER_BLASTER_COOLDOWN) {
             // spawn new water blaster item
             water_blaster_entity = genWaterBlasterEntity();
             Main.worldManager.addEntity(water_blaster_entity);
-            last_water_blaster_spawn = timer.getTimeInSeconds();
+            last_water_blaster_spawn = time_passed;
         }
 
         // goose spawning
 
         // between 1 and 3 geese can spawn in at any point within range of the player every 20 seconds.
         // up to an unlimited amount of geese
-        if(timer.getTimeInSeconds() - last_flock_spawn > FLOCK_SPAWN_COOLDOWN) {
-            last_flock_spawn = timer.getTimeInSeconds();
+        if(time_passed - last_flock_spawn > FLOCK_SPAWN_COOLDOWN) {
+            last_flock_spawn = time_passed;
             Random random = new Random();
             int flock_size = random.nextInt(1, MAX_FLOCK_SIZE);
             float x_origin = random.nextFloat(-GOOSE_X_RANGE, GOOSE_X_RANGE);
@@ -91,7 +91,7 @@ public class Spawner {
     }
 
     private ItemEntity genBaguetteEntity() {
-        String id = "baguette-" + timer.getTimeInSeconds();
+        String id = "baguette-" + time_passed;
         // needs to use an array here because the ItemEntity references itself in its own initialisation
         ItemEntity[] baguette = new ItemEntity[1];
         baguette[0] = new ItemEntity(assetManager, id, new BaguetteItem(assetManager) {
@@ -108,7 +108,7 @@ public class Spawner {
     }
 
     private ItemEntity genWaterBlasterEntity() {
-        String id = "water-blaster" + timer.getTimeInSeconds();
+        String id = "water-blaster" + time_passed;
         ItemEntity[] blaster = new ItemEntity[1];
         blaster[0] = new ItemEntity(assetManager, id, new WaterBlasterItem(assetManager) {
             @Override
@@ -119,7 +119,6 @@ public class Spawner {
         // Randomise position regardless of player position
         Random random = new Random();
         blaster[0].move(random.nextFloat(0, Main.worldManager.getWidth()), random.nextFloat(0, Main.worldManager.getHeight()),0);
-        System.out.println(blaster[0].getNode().getLocalTranslation());
         return blaster[0];
     }
 

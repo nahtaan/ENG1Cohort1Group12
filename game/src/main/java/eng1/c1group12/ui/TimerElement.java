@@ -4,20 +4,18 @@ import com.jme3.asset.AssetManager;
 import com.jme3.font.BitmapFont;
 import com.jme3.font.BitmapText;
 import com.jme3.math.ColorRGBA;
-import com.jme3.system.Timer;
 import eng1.c1group12.Main;
 
 public class TimerElement extends UIElement {
 
     private final BitmapText text;
-    private final Timer timer;
     private final float duration;
+    private float time_spent = 0;
     private boolean has_completed = false;
     private final Runnable end_task;
 
-    public TimerElement(String name, AssetManager assetManager, Timer timer, float seconds, Runnable end_task) {
+    public TimerElement(String name, AssetManager assetManager, float seconds, Runnable end_task) {
         super(name);
-        this.timer = timer;
         this.duration = seconds;
         this.end_task = end_task;
 
@@ -34,8 +32,9 @@ public class TimerElement extends UIElement {
 
     @Override
     public void tick(float tpf) {
-        text.setText(format_time(duration - timer.getTimeInSeconds()));
-        if(duration - timer.getTimeInSeconds() <= 0 && !has_completed) {
+        time_spent += tpf;
+        text.setText(format_time(duration - time_spent));
+        if(duration - time_spent <= 0 && !has_completed) {
             has_completed = true;
             end_task.run();
         }
