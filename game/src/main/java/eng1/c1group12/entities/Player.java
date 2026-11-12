@@ -33,6 +33,7 @@ public class Player extends Entity {
 
     public void attachInputListener(InputManager inputManager) {
         inputManager.addListener((AnalogListener) (name, value, tpf) -> {
+            if(Main.isPaused()) return;
             switch (name) {
                 case "Left" -> this.moveX -= 1;
                 case "Right" -> this.moveX += 1;
@@ -41,6 +42,7 @@ public class Player extends Entity {
             }
         }, "Left", "Right", "Up", "Down");
         inputManager.addListener((ActionListener) (name, is_pressed, tpf) -> {
+            if(Main.isPaused()) return;
             switch(name) {
                 case "item-1" -> attemptUseItem(ItemUseSlot.ONE, is_pressed);
                 case "item-2" -> attemptUseItem(ItemUseSlot.TWO, is_pressed);
