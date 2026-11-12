@@ -7,7 +7,7 @@ import eng1.c1group12.entities.Goose;
 
 import java.util.List;
 
-public class WaterBlasterItem extends Item{
+public abstract class WaterBlasterItem extends Item{
     /**
      * The maximum distance that this item can be used on a goose from.
      */
@@ -36,10 +36,5 @@ public class WaterBlasterItem extends Item{
             }
         }
         return true;
-    }
-
-    @Override
-    public void onPickup() {
-        // nothing special
     }
 }
