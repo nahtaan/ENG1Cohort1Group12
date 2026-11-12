@@ -11,6 +11,7 @@ import eng1.c1group12.ui.EventElement;
 import eng1.c1group12.ui.InventoryElement;
 import eng1.c1group12.ui.TimerElement;
 import eng1.c1group12.ui.UIManager;
+import eng1.c1group12.world.Spawner;
 import eng1.c1group12.world.WorldManager;
 
 import java.awt.*;
@@ -19,6 +20,7 @@ public class Main extends SimpleApplication {
 
     public static WorldManager worldManager;
     public static UIManager uiManager;
+    public static Spawner spawner;
     public static Timer timer;
 
     public static void main(String[] args) {
@@ -87,6 +89,8 @@ public class Main extends SimpleApplication {
         });
         uiManager.addElement(clock);
         uiManager.addElement(inventory);
+
+        spawner = new Spawner(timer, assetManager, inventory);
     }
 
     public void endGame() {
@@ -120,6 +124,7 @@ public class Main extends SimpleApplication {
     public void simpleUpdate(float tpf) {
         worldManager.tick(tpf);
         uiManager.tick(tpf);
+        spawner.tick(tpf);
     }
 
 }

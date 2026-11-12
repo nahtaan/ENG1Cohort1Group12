@@ -5,7 +5,7 @@ import com.jme3.math.Vector3f;
 import eng1.c1group12.Main;
 import eng1.c1group12.entities.Goose;
 
-public class BaguetteItem extends Item {
+public abstract class BaguetteItem extends Item {
 
     /**
      * The maximum distance that this item can be used on a goose from.
@@ -35,10 +35,5 @@ public class BaguetteItem extends Item {
         nearest.feed(100);
 
         return true;
-    }
-
-    @Override
-    public void onPickup() {
-        // nothing special on pickup
     }
 }
