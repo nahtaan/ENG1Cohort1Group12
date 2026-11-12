@@ -9,6 +9,9 @@ import eng1.c1group12.ui.InventoryElement;
 import eng1.c1group12.ui.TimerElement;
 import eng1.c1group12.ui.UIManager;
 import eng1.c1group12.world.WorldManager;
+import com.jme3.math.Vector3f;
+import eng1.c1group12.entities.Goose;
+
 
 import java.awt.*;
 
@@ -52,6 +55,19 @@ public class Main extends SimpleApplication {
         InventoryElement inventory = new InventoryElement("Inventory", assetManager);
 
         worldManager = new WorldManager(rootNode, assetManager, cam, WorldManager.Level.OUTSIDE, inventory);
+
+        // Spawn a goose near the player
+        Goose goose = new Goose(assetManager, "goose-1");
+
+        Vector3f playerPos = worldManager.getPlayer().getNode().getLocalTranslation();
+
+        goose.getNode().setLocalTranslation(
+                playerPos.x + 1.5f,
+                playerPos.y + 1.5f,
+                0
+        );
+
+        worldManager.addEntity(goose);
 
         worldManager.getPlayer().attachInputListener(inputManager);
 
