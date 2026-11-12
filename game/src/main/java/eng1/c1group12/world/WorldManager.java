@@ -15,6 +15,8 @@ import eng1.c1group12.Main;
 import eng1.c1group12.entities.Entity;
 import eng1.c1group12.entities.Player;
 import eng1.c1group12.ui.InventoryElement;
+import eng1.c1group12.entities.Goose;
+import eng1.c1group12.ui.EventElement;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -35,6 +37,14 @@ public class WorldManager {
     private Player player;
     private List<Entity> currentEntites;
     private final Map<Level, List<Entity>> levelEntities = new HashMap<>();
+    private final List<HiddenEvent> hiddenEvents = new ArrayList<>();
+    private int eventsTriggered = 0;
+    private EventElement eventDisplay;
+
+
+    public void setEventDisplay(EventElement eventDisplay) {
+        this.eventDisplay = eventDisplay;
+    }
 
     public WorldManager(Node rootNode, AssetManager assetManager, Camera camera, Level initialLevel, InventoryElement inventoryUI) {
         this.root = rootNode;
@@ -43,6 +53,20 @@ public class WorldManager {
         setupCamera();
         if (!loadLevel(initialLevel)) throw new RuntimeException("Unable to load world.");
         loadPlayer(inventoryUI);
+        // Create hidden events near the player's starting position
+        Vector3f startPos = player.getNode().getLocalTranslation();
+        hiddenEvents.add(new HiddenEvent(
+                "Helpful Student",
+                startPos.x + 1.5f,
+                startPos.y,
+                0.6f
+        ));
+        hiddenEvents.add(new HiddenEvent(
+                "Goose Gathering",
+                startPos.x,
+                startPos.y - 1.5f,
+                0.6f
+        ));
     }
 
     private void setupCamera() {
@@ -159,6 +183,35 @@ public class WorldManager {
             currentEntites.remove(entity);
         }
         post_tick_removal.clear();
+
+        // Check whether the player has triggered a hidden event
+        Vector3f playerPos = player.getNode().getLocalTranslation();
+        for (HiddenEvent event : hiddenEvents) {
+            if (event.checkTrigger(playerPos)) {
+                eventsTriggered++;
+                String message = event.getName();
+                if (event.getName().equals("Helpful Student")) {
+                    removeEntity("goose-1");
+                    message = "A student distracted a goose!";
+                    System.out.println(message);
+                }
+                if (event.getName().equals("Goose Gathering")) {
+                    Goose goose = new Goose(assetManager, "goose-event-1");
+                    goose.getNode().setLocalTranslation(
+                            playerPos.x + 2f,
+                            playerPos.y + 1f,
+                            0
+                    );
+                    addEntity(goose);
+                    message = "Another goose has appeared!";
+                    System.out.println(message);
+                }
+                if (eventDisplay != null) {
+                    eventDisplay.showEvent(message, eventsTriggered);
+                }
+                System.out.println("Total events: " + eventsTriggered);
+            }
+        }
     }
 
 

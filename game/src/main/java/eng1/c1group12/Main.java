@@ -11,7 +11,7 @@ import eng1.c1group12.ui.UIManager;
 import eng1.c1group12.world.WorldManager;
 import com.jme3.math.Vector3f;
 import eng1.c1group12.entities.Goose;
-
+import eng1.c1group12.ui.EventElement;
 
 import java.awt.*;
 
@@ -56,6 +56,15 @@ public class Main extends SimpleApplication {
 
         worldManager = new WorldManager(rootNode, assetManager, cam, WorldManager.Level.OUTSIDE, inventory);
 
+        // Create the hidden event UI
+        EventElement eventUI = new EventElement(
+                "Events",
+                assetManager,
+                uiManager.screenWidth,
+                uiManager.screenHeight
+        );
+        uiManager.addElement(eventUI);
+        worldManager.setEventDisplay(eventUI);
 
         // Spawn three geese near the player
         Vector3f playerPos = worldManager.getPlayer().getNode().getLocalTranslation();
