@@ -56,18 +56,20 @@ public class Main extends SimpleApplication {
 
         worldManager = new WorldManager(rootNode, assetManager, cam, WorldManager.Level.OUTSIDE, inventory);
 
-        // Spawn a goose near the player
-        Goose goose = new Goose(assetManager, "goose-1");
 
+        // Spawn three geese near the player
         Vector3f playerPos = worldManager.getPlayer().getNode().getLocalTranslation();
+        for (int i = 0; i < 3; i++) {
+            Goose goose = new Goose(assetManager, "goose-" + (i + 1));
 
-        goose.getNode().setLocalTranslation(
-                playerPos.x + 1.5f,
-                playerPos.y + 1.5f,
-                0
-        );
+            goose.getNode().setLocalTranslation(
+                    playerPos.x + (i - 1) * 1.5f,
+                    playerPos.y + 1.5f,
+                    0
+            );
+            worldManager.addEntity(goose);
+        }
 
-        worldManager.addEntity(goose);
 
         worldManager.getPlayer().attachInputListener(inputManager);
 
