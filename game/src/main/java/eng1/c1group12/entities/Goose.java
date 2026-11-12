@@ -2,8 +2,6 @@ package eng1.c1group12.entities;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.math.Vector3f;
-import com.jme3.scene.shape.CenterQuad;
-import com.jme3.texture.Texture;
 import eng1.c1group12.Main;
 
 import java.util.Random;
@@ -12,18 +10,8 @@ public class Goose extends Entity {
     private final float speed = new Random().nextFloat(0.3f, 0.9f);
 
     public Goose(AssetManager assetManager, String name) {
-        super(assetManager, name, "player");
-
-        // Replace the temporary player texture with the goose image
-        Texture gooseTexture = assetManager.loadTexture(
-                "Textures/Entities/goose1.png"
-        );
-
-        gooseTexture.setMagFilter(Texture.MagFilter.Nearest);
-        gooseTexture.setMinFilter(Texture.MinFilter.NearestNoMipMaps);
-
-        geom.setMesh(new CenterQuad(width, height));
-        geom.getMaterial().setTexture("ColorMap", gooseTexture);
+        super(assetManager, name, "goose");
+        animationHandler.showCell(1, 1);
     }
 
     @Override
@@ -45,11 +33,11 @@ public class Goose extends Entity {
 
         // Move towards the player without overshooting
         float movement = Math.min(speed * tpf, distance - stopDistance);
+        float x = (dx / distance) * movement;
+        float y = (dy / distance) * movement;
 
-        move(
-                (dx / distance) * movement,
-                (dy / distance) * movement,
-                0
-        );
+        move(x, y, 0);
+        // update animation
+        animationHandler.update(tpf, x, y);
     }
 }
