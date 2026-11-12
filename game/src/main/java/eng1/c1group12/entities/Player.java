@@ -95,7 +95,17 @@ public class Player extends Entity {
     @Override
     public void tick(float tpf) {
         animationHandler.update(tpf, moveX, moveY);
-        move(moveX * speed * tpf, moveY * speed * tpf, 0);
+        float changeX = moveX * speed * tpf;
+        float changeY = moveY * speed * tpf;
+        // Check if a goose is blocking the player's next position
+        float nextX = getNode().getLocalTranslation().x + changeX;
+        float nextY = getNode().getLocalTranslation().y + changeY;
+        if (Main.worldManager.isEntityAtPos(nextX, nextY, Goose.class)) {
+            // Slow the player down when moving into a goose
+            changeX *= 0.5f;
+            changeY *= 0.5f;
+        }
+        move(changeX, changeY, 0);
         moveX = 0;
         moveY = 0;
 
@@ -114,7 +124,7 @@ public class Player extends Entity {
         }
         // top
         if(pos.y > worldHeight-(height/2)) {
-            move(0, -Math.abs(pos.y - (worldHeight-width/2)), 0);
+            move(0, -Math.abs(pos.y - (worldHeight-height/2)), 0);
         }
         // bottom
         if(pos.y < height/2) {

@@ -3,8 +3,11 @@ package eng1.c1group12;
 import com.jme3.app.SimpleApplication;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.KeyTrigger;
+import com.jme3.math.Vector3f;
 import com.jme3.system.AppSettings;
 import com.jme3.system.Timer;
+import eng1.c1group12.entities.Goose;
+import eng1.c1group12.ui.EventElement;
 import eng1.c1group12.ui.InventoryElement;
 import eng1.c1group12.ui.TimerElement;
 import eng1.c1group12.ui.UIManager;
@@ -50,8 +53,29 @@ public class Main extends SimpleApplication {
         uiManager = new UIManager(guiNode, assetManager, cam);
         // create the inventory UI so it can be referenced elsewhere
         InventoryElement inventory = new InventoryElement("Inventory", assetManager);
+        // Create the hidden event UI
+        EventElement eventUI = new EventElement(
+                "Events",
+                assetManager,
+                uiManager.screenWidth,
+                uiManager.screenHeight
+        );
+        uiManager.addElement(eventUI);
 
-        worldManager = new WorldManager(rootNode, assetManager, cam, WorldManager.Level.OUTSIDE, inventory);
+        worldManager = new WorldManager(rootNode, assetManager, cam, WorldManager.Level.OUTSIDE, inventory, eventUI);
+
+        // Spawn three geese near the player
+        Vector3f playerPos = worldManager.getPlayer().getNode().getLocalTranslation();
+        for (int i = 0; i < 3; i++) {
+            Goose goose = new Goose(assetManager, "goose-" + (i + 1));
+
+            goose.getNode().setLocalTranslation(
+                    playerPos.x + (i - 1) * 1.5f,
+                    playerPos.y + 1.5f,
+                    0
+            );
+            worldManager.addEntity(goose);
+        }
 
         worldManager.getPlayer().attachInputListener(inputManager);
 

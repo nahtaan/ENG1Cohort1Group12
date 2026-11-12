@@ -13,7 +13,10 @@ import com.jme3.scene.shape.Quad;
 import com.jme3.texture.Texture;
 import eng1.c1group12.Main;
 import eng1.c1group12.entities.Entity;
+import eng1.c1group12.entities.Goose;
+import eng1.c1group12.entities.HiddenEvent;
 import eng1.c1group12.entities.Player;
+import eng1.c1group12.ui.EventElement;
 import eng1.c1group12.ui.InventoryElement;
 
 import java.io.IOException;
@@ -36,13 +39,14 @@ public class WorldManager {
     private List<Entity> currentEntites;
     private final Map<Level, List<Entity>> levelEntities = new HashMap<>();
 
-    public WorldManager(Node rootNode, AssetManager assetManager, Camera camera, Level initialLevel, InventoryElement inventoryUI) {
+    public WorldManager(Node rootNode, AssetManager assetManager, Camera camera, Level initialLevel, InventoryElement inventoryUI, EventElement eventUI) {
         this.root = rootNode;
         this.assetManager = assetManager;
         this.camera = camera;
         setupCamera();
         if (!loadLevel(initialLevel)) throw new RuntimeException("Unable to load world.");
         loadPlayer(inventoryUI);
+        loadEvents(eventUI);
     }
 
     private void setupCamera() {
@@ -105,6 +109,56 @@ public class WorldManager {
         return true;
     }
 
+    private void loadEvents(EventElement eventUI) {
+        if(currentLevel == Level.OUTSIDE) {
+            // Create hidden events near the player's starting position
+            Vector3f startPos = player.getNode().getLocalTranslation();
+            addEntity(new HiddenEvent(
+                    assetManager,
+                    "Helpful Student",
+                    eventUI,
+                    startPos.x + 1.5f,
+                    startPos.y,
+                    0.6f
+            ) {
+                @Override
+                public void onTrigger() {
+                    removeEntity("goose-1");
+                }
+
+                @Override
+                public String getMessage() {
+                    return "A student distracted a goose!";
+                }
+            });
+            addEntity(new HiddenEvent(
+                    assetManager,
+                    "Goose Gathering",
+                    eventUI,
+                    startPos.x,
+                    startPos.y - 1.5f,
+                    0.6f
+            ) {
+                @Override
+                public void onTrigger() {
+                    Vector3f playerPos = getPlayer().getNode().getLocalTranslation();
+                    Goose goose = new Goose(assetManager, "goose-event-1");
+                    goose.getNode().setLocalTranslation(
+                            playerPos.x + 2f,
+                            playerPos.y + 1f,
+                            0
+                    );
+                    addEntity(goose);
+                }
+
+                @Override
+                public String getMessage() {
+                    return "Another goose has appeared!";
+                }
+            });
+        }
+    }
+
     private WorldData loadWorldData(Level level) {
         // noinspection ConstantConditions
         try (Reader reader = new InputStreamReader(Main.class.getResourceAsStream("/Textures/Levels/" + level.id + "/map.json"))) {
@@ -121,8 +175,7 @@ public class WorldManager {
     }
 
     public void addEntity(Entity entity) {
-        currentEntites.add(entity);
-        this.root.attachChild(entity.getNode());
+        post_tick_addition.add(entity);
     }
 
     public void removeEntity(String name) {
@@ -133,7 +186,6 @@ public class WorldManager {
             }
         }
     }
-
 
     public Player getPlayer() {
         return player;
@@ -149,6 +201,7 @@ public class WorldManager {
 
     // Avoids concurrentmodification exception
     private final List<Entity> post_tick_removal = new ArrayList<>();
+    private final List<Entity> post_tick_addition = new ArrayList<>();
 
     public void tick(float tpf) {
         for (Entity entity: currentEntites) {
@@ -159,6 +212,25 @@ public class WorldManager {
             currentEntites.remove(entity);
         }
         post_tick_removal.clear();
+        for(Entity entity: post_tick_addition) {
+            this.root.attachChild(entity.getNode());
+            currentEntites.add(entity);
+        }
+        post_tick_addition.clear();
+    }
+
+    public boolean isEntityAtPos(float x, float y, Class<? extends Entity> type) {
+        for (Entity entity : currentEntites) {
+            if (type.isInstance(entity)) {
+                Vector3f targetPos = entity.getNode().getLocalTranslation();
+                float dx = x - targetPos.x;
+                float dy = y - targetPos.y;
+                if (dx * dx + dy * dy < 0.6f * 0.6f) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
 
