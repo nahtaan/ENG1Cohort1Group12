@@ -17,7 +17,7 @@ import java.util.List;
 public class Player extends Entity {
     private float moveX;
     private float moveY;
-    private final float speed = 1f;
+    private final float speed = 5f;
     private final Camera camera;
     private final List<Item> inventory = new ArrayList<>();
     private final InventoryElement inventoryUI;
@@ -76,7 +76,7 @@ public class Player extends Entity {
         timeLastUsed.put(slot, now);
         try {
             Item item = inventory.get(slot.index);
-            item.useItem();
+            if(!item.attemptUseItem()) return;
             inventory.remove(slot.index);
             inventoryUI.refreshInventoryUI();
         }catch (IndexOutOfBoundsException ignored) {}

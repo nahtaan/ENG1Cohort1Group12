@@ -43,7 +43,6 @@ public class InventoryElement extends UIElement {
 
     }
 
-
     @Override
     public void tick(float tpf) {
 
